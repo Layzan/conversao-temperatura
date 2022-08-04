@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-temperatura
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kube-temperatura
+  template:
+    metadata:
+     labels:
+       app: kube-temperatura
+    spec:
+      containers:
+      - name: kube-temperatura
+        image: layzan/conversao-temperatura:v2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-temperatura
+spec:
+  selector:
+    app: kube-temperatura
+  ports: 
+  - port: 80
+    targetPort: 8080
+    nodePort: 30001
+  type: NodePort
